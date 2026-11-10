@@ -1,0 +1,9 @@
+{
+  "unattachedDiskGraceDays": 14,
+  "requireIncrementalSnapshotBeforeDelete": true,
+  "snapshotCoolArchiveDays": 90,
+  "excludeResourceTags": [
+    "LegalHold",
+    "DR-WarmStandby"
+  ]
+}

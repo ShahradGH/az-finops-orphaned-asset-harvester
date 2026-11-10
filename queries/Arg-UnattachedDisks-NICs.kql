@@ -1,0 +1,7 @@
+// Identify unattached Managed Disks and Disconnected Private Endpoints across all subscriptions
+resources
+| where (type =~ "microsoft.compute/disks" and tostring(properties.diskState) =~ "Unattached" and isempty(managedBy))
+   or (type =~ "microsoft.network/privateendpoints" and tostring(properties.privateLinkServiceConnections[0].properties.privateLinkServiceConnectionState.status) =~ "Disconnected")
+| where not(name startswith "ASR-")
+| project name, type, resourceGroup, subscriptionId, location, sku = tostring(sku.name), diskSizeGB = toint(properties.diskSizeGB), timeCreated = todatetime(properties.timeCreated)
+| order by diskSizeGB desc
